@@ -1,0 +1,49 @@
+type Vehicle {
+  vId: Int!
+  id: Int!
+  firstName: String!
+  lastName: String!
+  email: String!
+  carMake: String!
+  carModel: String!
+  vinNumber: String!
+  manufacturedDate: String!
+  vehicleAge: Int!
+}
+
+type Query {
+  getAllVehicle: [Vehicle!]!
+  vehicle(vId: Int!): Vehicle!
+  paginated(first: Int!,offset: Int!): [Vehicle!]!
+}
+
+type Mutation {
+  createVehicle(createVehicleInput: CreateVehicleInput!): Vehicle!
+  updateVehicle(updateVehicle: UpdateVehicleInput!): Vehicle!
+  removeVehicle(vId: Int!): Vehicle!
+}
+
+input CreateVehicleInput {
+  id: Int!
+  firstName: String!
+  lastName: String!
+  email: String!
+  carMake: String!
+  carModel: String!
+  vinNumber: String!
+  manufacturedDate: String!
+  vehicleAge: Int!
+}
+
+input UpdateVehicleInput {
+  vId: Int!
+  id: Int!
+  firstName: String!
+  lastName: String!
+  email: String!
+  carMake: String!
+  carModel: String!
+  vinNumber: String!
+  manufacturedDate: String!
+  vehicleAge: Int!
+}

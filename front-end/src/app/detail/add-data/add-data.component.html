@@ -1,0 +1,58 @@
+<div style="width: 400px; margin: auto;">
+    <h1>Add Vehicle Data</h1>
+    <div class="submit-form">
+        <div *ngIf="!submitted">
+            <div class="form-group">
+                <label for="id">ID</label>
+                <input type="text" class="form-control" id="id" required [(ngModel)]="vehicleForm.id" name="id" />
+            </div>
+
+            <div class="form-group">
+                <label for="first_name">First Name</label>
+                <input class="form-control" id="first_name" required [(ngModel)]="vehicleForm.first_name"
+                    name="first_name" />
+            </div>
+
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                <input class="form-control" id="last_name" required [(ngModel)]="vehicleForm.last_name"
+                    name="last_name" />
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input class="form-control" id="email" required [(ngModel)]="vehicleForm.email" name="email" />
+            </div>
+
+            <div class="form-group">
+                <label for="car_make">Car Make</label>
+                <input class="form-control" id="car_make" required [(ngModel)]="vehicleForm.car_make" name="car_make" />
+            </div>
+
+            <div class="form-group">
+                <label for="car_model">Car Model</label>
+                <input class="form-control" id="car_model" required [(ngModel)]="vehicleForm.car_model"
+                    name="car_model" />
+            </div>
+
+            <div class="form-group">
+                <label for="vin_number">Vin Number</label>
+                <input class="form-control" id="vin_number" required [(ngModel)]="vehicleForm.vin_number"
+                    name="vin_number" />
+            </div>
+
+            <div class="form-group">
+                <label for="manufactured_date">Manufactured Date</label>
+                <input type="date" class="form-control" id="manufactured_date" required
+                    [(ngModel)]="vehicleForm.manufactured_date" name="manufactured_date" />
+            </div>
+            <br>
+            <button (click)="addData()" class="btn btn-sm btn-success">Save Data</button>
+        </div>
+
+        <div *ngIf="submitted">
+            <h4>Data added successfully!</h4>
+            <button class="btn btn-sm btn-success" (click)="newData()">Add New Data</button>
+        </div>
+    </div>
+</div>

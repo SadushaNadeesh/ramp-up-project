@@ -1,0 +1,24 @@
+<label>Vehicle Data </label> &nbsp;&nbsp;&nbsp; <button class="btn btn-sm btn-outline-primary" (click)="addNew() ">Add New
+  Data</button>
+<br><br>
+<table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let vehicle of vehicles">
+        <td>{{vehicle.vId}}</td>
+        <td>{{vehicle.firstName}}</td>
+        <td>{{vehicle.lastName}}</td>
+        <td>
+            <button class="btn btn-sm btn-info" routerLink="/data/{{ vehicle.vId }}">Edit</button> &nbsp;&nbsp;
+            <button class="btn btn-sm btn-warning" (click)="removeVehicle(vehicle.vId)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>

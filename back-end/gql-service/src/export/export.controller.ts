@@ -1,0 +1,24 @@
+import { Controller, Get, Query, Res, Body, HttpStatus } from '@nestjs/common';
+import { VehicleService } from 'src/vehicle/vehicle.service';
+import { ExportService } from './export.service';
+
+@Controller('export')
+export class ExportController {
+
+    constructor(private exService: ExportService, private gql: VehicleService) { }
+
+    @Get()
+    async download(
+        @Body('higher') higher: number,
+        @Body('lower') lower: number) {
+        console.log(higher + "     " + lower);
+        const output = await this.gql.ageOfVehicle(higher, lower);
+        const csvDone = await this.exService.saveCsvFile(output.allVehicles.nodes);
+        return {
+            statusCode: HttpStatus.OK,
+            message: 'csv created successfully',
+            csvDone
+        };
+    }
+
+}
