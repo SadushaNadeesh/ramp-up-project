@@ -20,7 +20,7 @@ export class VehicleResolver {
     }
 
     @Query(() => Vehicle, { name: 'vehicle' })
-    findOne(@Args('id', { type: () => Int }) vId: number) {
+    findOne(@Args('vId', { type: () => Int }) vId: number) {
         return this.vehicleService.findOne(vId);
     }
 
@@ -30,7 +30,7 @@ export class VehicleResolver {
     }
 
     @Mutation(() => Vehicle)
-    removeVehicle(@Args('id', { type: () => Int }) vId: number) {
+    removeVehicle(@Args('vId', { type: () => Int }) vId: number) {
         return this.vehicleService.remove(vId);
     }
 

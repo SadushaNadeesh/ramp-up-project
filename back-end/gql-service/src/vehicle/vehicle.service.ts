@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { request } from 'graphql-request';
 // import { InjectRepository } from '@nestjs/typeorm';
 // import { Repository } from 'typeorm';
@@ -15,6 +15,7 @@ export class VehicleService {
   constructor() { }
 
   async create(vehicle: CreateVehicleInput): Promise<Vehicle> {
+    console.log(vehicle.firstName);
     const Add = gql`
     mutation(
       $id:Int!
@@ -73,10 +74,10 @@ export class VehicleService {
     return output.allVehicles.nodes;
   }
 
-  async findOne(id: number): Promise<Vehicle> {
+  async findOne(vId: number): Promise<Vehicle> {
     const Get_Data = gql`
-        query{
-            vehicleByVId(vId: "${id}") {
+        query($vId:Int!){
+            vehicleByVId(vId: $vId) {
               vId
               id
               firstName
@@ -89,8 +90,8 @@ export class VehicleService {
               vehicleAge
             }
         }`;
-    // const variables = { "vId": id };
-    let output = await request(this.endpoint, Get_Data).then((data) => {
+    const variables = { "vId": vId };
+    let output = await request(this.endpoint, Get_Data,variables).then((data) => {
       console.log(data.vehicleByVId);
       return data.vehicleByVId;
     });
@@ -98,6 +99,7 @@ export class VehicleService {
   }
 
   async update(id: number, vehicle: UpdateVehicleInput) {
+    console.log("......................"+vehicle.firstName);
     const Update_Data = gql`
     mutation(
       $vId:Int!
@@ -128,18 +130,20 @@ export class VehicleService {
       }
     }`;
     const variables = { 
-    "vId": id, "id": id, "firstName": vehicle.firstName, "lastName": vehicle.lastName, "carMake": vehicle.carMake, 
+    "vId": vehicle.id, "id": vehicle.id, "firstName": vehicle.firstName, "lastName": vehicle.lastName, "carMake": vehicle.carMake, 
     "carModel": vehicle.carModel, "email": vehicle.email,  "vinNumber": vehicle.vinNumber,  "manufacturedDate": vehicle.manufacturedDate,  "vehicleAge": vehicle.vehicleAge
     };
-    let output = await request(this.endpoint, Update_Data, variables);
-    return output.updateVehicle;
+    // let output = await request(this.endpoint, Update_Data, variables);
+    // return output.updateVehicle;
+    await request(this.endpoint, Update_Data, variables);
 
   }
 
-  async remove(id: number) {
+  async remove(vId: number) {
+    console.log("...................."+vId);
     const Remove_Vehicle = gql`
-        mutation($id:Int!){
-            deleteVehicleByVId(input:{vId:$id}){
+        mutation($vId:Int!){
+            deleteVehicleByVId(input:{vId:$vId}){
               vehicle{
                 vId
                 id
@@ -154,9 +158,13 @@ export class VehicleService {
               }
             }
           }`;
-    const variables = { "id": id };
-    let output = await request(this.endpoint, Remove_Vehicle, variables);
-    return output.deleteVehicleByVId;
+    const variables = { "vId": vId };
+    await request(this.endpoint, Remove_Vehicle, variables);
+    // return output.deleteVehicleByVId;
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'record removed successfully'
+  };
   }
 
   async paginate(first: number, offset: number) {
@@ -192,7 +200,7 @@ export class VehicleService {
       allVehicles( filter: {
           vehicleAge: {  greaterThanOrEqualTo: $higher lessThanOrEqualTo: $lower  }
         }){
-           nodes{
+          nodes{
              vId
              id
              firstName

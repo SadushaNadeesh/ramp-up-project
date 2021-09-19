@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SocketclientService } from '../socketcluster/socketclient.service';
 import { FileReadService } from '../_services/file-read.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { FileReadService } from '../_services/file-read.service';
 })
 export class ExportDataComponent implements OnInit {
 
-  constructor( private readService: FileReadService) { }
+  constructor( private readService: FileReadService,private socketcluster: SocketclientService) { }
 
   ngOnInit(): void {
     
@@ -19,10 +20,11 @@ export class ExportDataComponent implements OnInit {
 
   export(): void {
     const data = {
-      name: "Hello"
+      higher: 39,
+      lower: 40
     };
 
-    this.readService.export(data)
+    this.readService.export(data.higher,data.lower)
       .subscribe(
         response => {
           console.log(response);

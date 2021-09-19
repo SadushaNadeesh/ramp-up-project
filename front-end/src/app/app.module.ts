@@ -13,6 +13,7 @@ import { ExportDataComponent } from './export-data/export-data.component';
 import { AddDataComponent } from './detail/add-data/add-data.component';
 import { EditDataComponent } from './detail/edit-data/edit-data.component';
 import { GraphQLModule } from './graphql.module';
+import { SocketclientService } from './socketcluster/socketclient.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { GraphQLModule } from './graphql.module';
     HttpClientModule,
     GraphQLModule
   ],
-  providers: [],
+  providers: [SocketclientService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

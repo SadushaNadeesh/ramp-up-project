@@ -1,36 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { gql, Apollo } from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 import { Vehicle } from 'src/app/models/data';
-
-const Get_Vehicles = gql`
-query{
-  allVehicles{
-    nodes{
-      vId
-      id
-      firstName
-      lastName
-      email
-      carMake
-      carModel
-      vinNumber
-      manufacturedDate
-      vehicleAge
-    }
-  }
-}`;
-
-const Remove_Vehicle = gql`
-mutation($id:Int!){
-  deleteVehicleByVId(input:{vId:$id}){
-    vehicle{
-      vId
-      firstName
-    }
-  }
-}`;
+import { GqlService } from 'src/app/_services/gql.service';
 
 @Component({
   selector: 'app-detail',
@@ -42,40 +15,28 @@ export class DetailComponent implements OnInit {
   vehicles: Vehicle[] = [];
   vehicleId: number = 0;
 
-  v:any[] = [];
+  v: any[] = [];
 
-  constructor(private router: Router,private apollo: Apollo) { }
+  constructor(private router: Router, private apollo: Apollo, private vehicleService: GqlService) { }
 
   ngOnInit(): void {
     this.loadAllData();
   }
 
-  loadAllData(){
-    this.apollo.watchQuery<any>({
-      query: Get_Vehicles
-    })
-      .valueChanges
+  loadAllData(): void {
+    this.vehicleService.getAllVehicles()
       .subscribe(({ data, loading }) => {
         console.log(data);
-        this.vehicles = data.allVehicles.nodes;
+        console.log(loading);
+        this.vehicles = data.getAllVehicle;
       })
   }
 
   removeVehicle(vid: number) {
-    console.log(vid);
-    this.vehicles=[];
-    this.apollo.mutate<any>({
-      mutation: Remove_Vehicle,
-      variables: {
-        id: vid
-      }
-    }).subscribe(({ data }) => {
-      this.loadAllData();
-      console.log(data.deleteVehicleByVId);
-    }, error => {
-      console.log(error);
-    });
-    
+    this.vehicleService.delete(vid)
+      .subscribe(({ data }) => {
+      });
+    this.loadAllData();
   }
 
   addNew() {

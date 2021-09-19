@@ -1,35 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { gql, Apollo } from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 import { Vehicle } from 'src/app/models/data';
+import { GqlService } from 'src/app/_services/gql.service';
 
- const Add = gql`
- mutation(
-  $id:Int!
-  $firstName:String!
-  $lastName:String!
-  $carMake:String!
-  $carModel:String!
-  $email:String!
-  $vinNumber:String!
-  $manufacturedDate:String!
-  $vehicleAge:Int!
-  ){
-    createVehicle(
-      input: {vehicle: {id: $id,firstName: $firstName, lastName: $lastName,carMake: $carMake, carModel:$carModel, email: $email,  vinNumber: $vinNumber,  manufacturedDate: $manufacturedDate,  vehicleAge: $vehicleAge}}
-    ) {
-    vehicle {
-      id
-        firstName
-        lastName
-        email
-        carMake
-        carModel
-        vinNumber
-        manufacturedDate
-        vehicleAge
-    }
-  }
-}`;
 
 @Component({
   selector: 'app-add-data',
@@ -56,32 +29,20 @@ export class AddDataComponent implements OnInit {
   cr_date: any = new Date();
   isLoggedIn = false;
 
-  constructor(private apollo: Apollo) { }
+  constructor(private apollo: Apollo,private vehicleService: GqlService) { }
 
   ngOnInit(): void {
   }
 
   addData() {
-    this.apollo.mutate({
-      mutation: Add,
-      variables: {
-        // CreateVehicleInput: {
-          id: Number(this.vehicleForm.id),
-          firstName: this.vehicleForm.first_name,
-          lastName: this.vehicleForm.last_name,
-          email: this.vehicleForm.email,
-          carMake: this.vehicleForm.car_make,
-          carModel: this.vehicleForm.car_model,
-          vinNumber: this.vehicleForm.vin_number,
-          manufacturedDate: this.vehicleForm.manufactured_date,
-          vehicleAge: 0,
-        // }
-      }
-    })
-    .subscribe(({ data }) => {
-      console.log(data);
+
+    this.vehicleService.addVehicle(this.vehicleForm)
+      .subscribe(({ data }) => {
+        console.log(data);
       this.submitted = true;
-    })
+      }, error => {
+        console.log(error);
+      })
   }
 
 

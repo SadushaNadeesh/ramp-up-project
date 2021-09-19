@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { VehicleModule } from './vehicle/vehicle.module';
 import { ExportModule } from './export/export.module';
+import { SocketclusterService } from './socketcluster/socketcluster.service';
 
 @Module({
   imports: [
@@ -18,6 +19,6 @@ import { ExportModule } from './export/export.module';
     ExportModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SocketclusterService],
 })
 export class AppModule { }

@@ -25,8 +25,11 @@ export class FileReadService {
     return this.http.post(baseUrl2, {data:data});
   }
 
-  export(data: any): Observable<any> {
-    return this.http.post(baseUrl3, data);
+  export(higher: number,lower:number): Observable<any> {
+    return this.http.post(baseUrl3, {
+      higher,
+      lower
+    });
   }
 
 }

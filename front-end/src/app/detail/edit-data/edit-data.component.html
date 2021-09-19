@@ -2,7 +2,7 @@
     <h1>Update Vehicle Data</h1>
     <div class="submit-form">
         <div *ngIf="!submitted">
-            <form #userlogin = "ngForm" (ngSubmit) = "updateData(userlogin.value)">
+            <form #vehicleForm = "ngForm" (ngSubmit) = "updateData(vehicleForm)">
                 <div class="form-group">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" required [placeholder]="currentData.id" ngModel
