@@ -1,6 +1,6 @@
 Title: Develop a system with following features to auto mobile club and deploy on dockers.  
 
-Tools : Services- NodeJS (Using NestJS)  
+Tools : Services- NodeJS (Using NestJS) [GraphQL, Bull Job, Socketcluster]  
 		Frontend- Angular 11  
 		
 Guide line:  
